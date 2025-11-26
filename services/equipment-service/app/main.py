@@ -6,12 +6,31 @@ from pydantic import BaseModel
 from typing import Optional, List
 from datetime import date, datetime
 from decimal import Decimal
+import time
 from .database import get_db, engine, Base
 from .models import Equipment, EquipmentCategory, Location, EquipmentLocationHistory, EquipmentStatus
 
-Base.metadata.create_all(bind=engine)
-
 app = FastAPI(title="Equipment Service", version="1.0.0")
+
+@app.on_event("startup")
+async def startup_event():
+    """Initialize database with retry logic"""
+    max_retries = 30
+    retry_interval = 2
+
+    for attempt in range(max_retries):
+        try:
+            Base.metadata.create_all(bind=engine)
+            print(f"✅ Database connection established on attempt {attempt + 1}")
+            break
+        except Exception as e:
+            if attempt < max_retries - 1:
+                print(f"⚠️ Database connection attempt {attempt + 1} failed: {e}")
+                print(f"Retrying in {retry_interval} seconds...")
+                time.sleep(retry_interval)
+            else:
+                print(f"❌ Failed to connect to database after {max_retries} attempts")
+                raise
 
 app.add_middleware(
     CORSMiddleware,
