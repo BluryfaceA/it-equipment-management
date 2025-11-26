@@ -1,55 +1,37 @@
 {
-  "name": "IT Equipment Management System",
-  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "name": "IT Equipment Management",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
 
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "moby": true
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    }
   },
 
   "customizations": {
     "vscode": {
       "extensions": [
         "ms-python.python",
-        "ms-python.vscode-pylance",
         "ms-azuretools.vscode-docker"
-      ],
-      "settings": {
-        "python.defaultInterpreterPath": "/usr/local/bin/python",
-        "python.linting.enabled": true,
-        "python.formatting.provider": "black",
-        "editor.formatOnSave": true
-      }
+      ]
     }
   },
 
-  "forwardPorts": [
-    3306,
-    8000,
-    8001,
-    8002,
-    8003,
-    8004,
-    8005,
-    8501
-  ],
+  "forwardPorts": [3306, 8000, 8001, 8002, 8003, 8004, 8005, 8501],
 
   "portsAttributes": {
-    "3306": {
-      "label": "MySQL Database",
-      "onAutoForward": "ignore"
-    },
-    "8000": {
-      "label": "API Gateway",
-      "onAutoForward": "notify"
-    },
     "8501": {
-      "label": "Frontend (Streamlit)",
+      "label": "Frontend",
       "onAutoForward": "openBrowser"
     }
   },
 
-  "postCreateCommand": "pip install docker-compose",
-  "postStartCommand": "docker-compose up -d",
+  "postCreateCommand": "docker compose version",
+  "postStartCommand": "docker compose up -d",
 
   "remoteUser": "vscode"
 }
