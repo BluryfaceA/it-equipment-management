@@ -42,7 +42,7 @@ env/
 !.env.example
 
 # Database
-*.sql
+
 *.db
 *.sqlite
 
