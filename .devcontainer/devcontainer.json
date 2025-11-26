@@ -1,23 +1,21 @@
 {
   "name": "IT Equipment Management System",
-  "dockerComposeFile": "../docker-compose.yml",
-  "service": "api-gateway",
-  "workspaceFolder": "/workspace",
-  "shutdownAction": "stopCompose",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
 
   "customizations": {
     "vscode": {
       "extensions": [
         "ms-python.python",
         "ms-python.vscode-pylance",
-        "ms-azuretools.vscode-docker",
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode"
+        "ms-azuretools.vscode-docker"
       ],
       "settings": {
         "python.defaultInterpreterPath": "/usr/local/bin/python",
         "python.linting.enabled": true,
-        "python.linting.pylintEnabled": true,
         "python.formatting.provider": "black",
         "editor.formatOnSave": true
       }
@@ -44,32 +42,14 @@
       "label": "API Gateway",
       "onAutoForward": "notify"
     },
-    "8001": {
-      "label": "Auth Service",
-      "onAutoForward": "ignore"
-    },
-    "8002": {
-      "label": "Equipment Service",
-      "onAutoForward": "ignore"
-    },
-    "8003": {
-      "label": "Provider Service",
-      "onAutoForward": "ignore"
-    },
-    "8004": {
-      "label": "Maintenance Service",
-      "onAutoForward": "ignore"
-    },
-    "8005": {
-      "label": "Reports Service",
-      "onAutoForward": "ignore"
-    },
     "8501": {
       "label": "Frontend (Streamlit)",
       "onAutoForward": "openBrowser"
     }
   },
 
-  "postCreateCommand": "echo 'Container started successfully!'",
-  "postStartCommand": "docker-compose up -d"
+  "postCreateCommand": "pip install docker-compose",
+  "postStartCommand": "docker-compose up -d",
+
+  "remoteUser": "vscode"
 }
