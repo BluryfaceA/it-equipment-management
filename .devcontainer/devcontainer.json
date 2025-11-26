@@ -4,11 +4,7 @@
 
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {
-      "version": "latest",
-      "moby": true
-    },
-    "ghcr.io/devcontainers/features/python:1": {
-      "version": "3.11"
+      "version": "latest"
     }
   },
 
@@ -25,13 +21,16 @@
 
   "portsAttributes": {
     "8501": {
-      "label": "Frontend",
+      "label": "Frontend (Streamlit)",
       "onAutoForward": "openBrowser"
+    },
+    "8000": {
+      "label": "API Gateway",
+      "onAutoForward": "notify"
     }
   },
 
-  "postCreateCommand": "docker compose version",
-  "postStartCommand": "docker compose up -d",
+  "postCreateCommand": "echo '✅ Codespace ready! Run: docker compose up -d'",
 
   "remoteUser": "vscode"
 }
